@@ -1,0 +1,59 @@
+import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Context } from '../context/BlogContext';
+import { EvilIcons } from '@expo/vector-icons';
+
+const ShowScreen = ({ navigation }) => {
+  const { state } = useContext(Context);
+
+  const blogPost = state.find((blogPost) => blogPost.id === navigation.getParam('id'));
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{blogPost.title}</Text>
+      <Text style={styles.content}>{blogPost.content}</Text>
+    </View>
+  );
+}
+
+ShowScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Edit', { id: navigation.getParam('id') })}>
+        <EvilIcons name="pencil" size={35} />
+      </TouchableOpacity>
+    ),
+  };
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 24,
+    backgroundColor: "lightblue",
+    borderColor: 'black',
+    borderWidth: 5,
+    maxHeight: 450,
+    maxWidth: 450,
+    alignContent: "center",
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 5,
+    marginLeft: 5,
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: 5,
+    backgroundColor: "grey",
+    textAlign: "center",
+    marginBottom: 5,
+  },
+  content: {
+    fontSize: 20,
+    marginBottom: 5,
+    textAlign: "center",
+  }
+});
+
+export default ShowScreen;
+
